@@ -9,7 +9,7 @@ float Equation::compute_function(float x) {
 
 sf::Color colors[5] = { sf::Color::Red, sf::Color::Cyan, sf::Color::Green, sf::Color::Magenta, sf::Color::Yellow };
 
-sf::Color get_function_color(int ord) {
+sf::Color Equation::get_function_color(int ord) {
     return colors[ord % 5];
 }
 
@@ -21,7 +21,8 @@ sf::VertexArray Equation::render_function(int ord) {
         point p{ x, y };
 
         vxa[i].position = point_to_pixel(p);
-        vxa[i].color = get_function_color(ord);
+        this->color = get_function_color(ord);
+        vxa[i].color = this->color;
 
         i++;
     }

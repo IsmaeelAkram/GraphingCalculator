@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
     
     sf::Text details_text;
     details_text.setFont(roboto_mono);
-    details_text.setCharacterSize(24);
+    details_text.setCharacterSize(FONT_SIZE);
     details_text.setFillColor(sf::Color::White);
     details_text.setPosition(0.0f, 0.0f);
 
@@ -65,11 +65,21 @@ int main(int argc, char* argv[])
         }
 
         sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
-        char buf[1000];
-        sprintf_s(buf, "screen: [%d, %d]\ntrace: (%.2f, %.2f)\n%s\nxMax: %d\nyMax: %d\nrenderStep: %.2f\ntraceStep: %.2f",
+        std::string equations;
+        for (Equation eq : eqs) {
+            equations.append(eq.text + "\n");
+
+            char trace_buf[40];
+            float trace_x = pixel_to_point(mouse_pos).x;
+            float trace_y = eq.compute_function(trace_x);
+            sprintf_s(trace_buf, "trace: (%.2f, %.2f)\n\n", trace_x, trace_y);
+            equations.append(trace_buf);
+        }
+        
+        char buf[2000];
+        sprintf_s(buf, "%sscreen: [%d, %d]\nxMax: %d\nyMax: %d\nrenderStep: %.2f\ntraceStep: %.2f",
+            equations.c_str(),
             mouse_pos.x, mouse_pos.y,
-            pixel_to_point(mouse_pos).x, eqs[0].compute_function(pixel_to_point(mouse_pos).x),
-            eqs[0].text.c_str(),
             X_MAX,
             Y_MAX,
             RENDER_STEP,

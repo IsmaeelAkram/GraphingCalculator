@@ -1,3 +1,3 @@
 # GraphingCalculator
 
-![screenshot](https://raw.githubusercontent.com/IsmaeelAkram/GraphingCalculator/master/v1.png)
+![screenshot](https://raw.githubusercontent.com/IsmaeelAkram/GraphingCalculator/master/screenshot.png)

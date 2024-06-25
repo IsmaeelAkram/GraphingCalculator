@@ -3,8 +3,9 @@
 #define sprintf_s sprintf
 #endif
 
-#define WINDOW_WIDTH 500
-#define WINDOW_HEIGHT 500
+#define FONT_SIZE 20
+#define WINDOW_WIDTH 1000
+#define WINDOW_HEIGHT 1000
 #define QUADRANT_WIDTH WINDOW_WIDTH/2
 #define QUADRANT_HEIGHT WINDOW_HEIGHT/2
 #define X_MAX 10

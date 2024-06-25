@@ -13,12 +13,12 @@ class Equation {
     std::string text;
     float compute_function(float x);
     sf::VertexArray render_function(int ord=0);
+    sf::Color color;
 
     Equation(std::string text) {
         this->text = text;
     }
   private:
+    sf::Color get_function_color(int ord);
     te_parser tep;
 };
-
-sf::Color get_function_color(int ord);
