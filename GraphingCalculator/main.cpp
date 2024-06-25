@@ -57,11 +57,13 @@ std::string get_equation() {
     return "x^2";
 }
 
+te_parser tep;
 float compute_function(float x) {
     char x_str[16];
     sprintf_s(x_str, "%f", x);
     std::string substituted = std::regex_replace(get_equation(), std::regex("x"), x_str);
-    return te_interp(substituted.c_str(), 0);
+    /* return te_interp(substituted.c_str(), 0); */
+    return tep.evaluate(substituted);
 }
 
 sf::VertexArray render_function() {
