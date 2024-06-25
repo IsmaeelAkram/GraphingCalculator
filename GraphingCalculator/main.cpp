@@ -10,8 +10,8 @@
 #define sprintf_s sprintf
 #endif
 
-#define WINDOW_WIDTH 1000
-#define WINDOW_HEIGHT 1000
+#define WINDOW_WIDTH 500
+#define WINDOW_HEIGHT 500
 #define QUADRANT_WIDTH WINDOW_WIDTH/2
 #define QUADRANT_HEIGHT WINDOW_HEIGHT/2
 #define X_MAX 10
@@ -111,10 +111,14 @@ int main()
     //settings.antialiasingLevel = 8.0;
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Graphing Calculator", sf::Style::Close, settings);
     window.setVerticalSyncEnabled(true);
-    sf::Event event;
 
+    sf::Cursor cursor;
+    cursor.loadFromSystem(sf::Cursor::Cross);
+    window.setMouseCursor(cursor);
+
+    sf::Event event;
     sf::Font roboto_mono;
-    if (!roboto_mono.loadFromFile("C:\\Users\\Chimera\\source\\repos\\GraphingCalculator\\x64\\Debug\\RobotoMono-Regular.ttf")) {
+    if (!roboto_mono.loadFromFile("RobotoMono-Regular.ttf")) {
         fprintf(stderr, "Could not load roboto font.\n");
         return 1;
     }
