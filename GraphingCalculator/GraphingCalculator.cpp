@@ -3,12 +3,14 @@
 #include <string.h>
 #include <math.h>
 #include <vector>
+#include <regex>
+#include "tinyexpr.h"
 
 #define WINDOW_WIDTH 1000
 #define WINDOW_HEIGHT 1000
 #define QUADRANT_WIDTH WINDOW_WIDTH/2
 #define QUADRANT_HEIGHT WINDOW_HEIGHT/2
-#define X_MAX 3
+#define X_MAX 10
 #define Y_MAX 10
 #define RENDER_STEP 0.01
 #define TRACE_STEP 0.1
@@ -48,11 +50,14 @@ sf::VertexArray render_y_axis() {
 }
 
 std::string get_equation() {
-    return "y=x^3";
+    return "x^2";
 }
 
 float compute_function(float x) {
-    return pow(x,3);
+    char x_str[16];
+    sprintf_s(x_str, "%f", x);
+    std::string substituted = std::regex_replace(get_equation(), std::regex("x"), x_str);
+    return te_interp(substituted.c_str(), 0);
 }
 
 sf::VertexArray render_function() {
