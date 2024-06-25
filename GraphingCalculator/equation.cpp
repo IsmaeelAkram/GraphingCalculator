@@ -35,6 +35,8 @@ sf::VertexArray Equation::render_function(int ord) {
         this->color = get_function_color(ord);
         vxa[i].color = this->color;
 
+        printf("Rendered function point | Point: (%.2f, %.2f) | Color: %d \n", p.x, p.y, vxa[i].color);
+
         i += THICKNESS;
     }
     return vxa;

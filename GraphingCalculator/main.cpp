@@ -77,13 +77,12 @@ int main(int argc, char* argv[])
         }
         
         char buf[2000];
-        sprintf_s(buf, "%sscreen: [%d, %d]\nxMax: %d\nyMax: %d\nrenderStep: %.2f\ntraceStep: %.2f",
+        sprintf_s(buf, "%sscreen: [%d, %d]\nxMax: %d\nyMax: %d\nrenderStep: %.2f",
             equations.c_str(),
             mouse_pos.x, mouse_pos.y,
             X_MAX,
             Y_MAX,
-            RENDER_STEP,
-            TRACE_STEP
+            RENDER_STEP
             );
         details_text.setString(buf);
 

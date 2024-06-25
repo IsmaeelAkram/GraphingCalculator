@@ -7,9 +7,9 @@ sf::Vector2f point_to_pixel(point p) {
     return pixel;
 }
 
-point pixel_to_point(sf::Vector2i px) {
+point pixel_to_point(sf::Vector2i pixel) {
     point p;
-    p.x = (px.x - WINDOW_WIDTH / 2) / (QUADRANT_WIDTH / X_MAX); // inverse 
-    p.y = -(px.y - WINDOW_HEIGHT / 2) / (QUADRANT_HEIGHT / Y_MAX);
+    p.x = (pixel.x - WINDOW_WIDTH / 2) / (QUADRANT_WIDTH / X_MAX); // inverse 
+    p.y = -(pixel.y - WINDOW_HEIGHT / 2) / (QUADRANT_HEIGHT / Y_MAX);
     return p;
 }
