@@ -367,3 +367,4 @@ include/
 *.swp
 /GraphingCalculator/calc
 /calc
+.vscode
