@@ -14,17 +14,28 @@ sf::Color Equation::get_function_color(int ord) {
 }
 
 sf::VertexArray Equation::render_function(int ord) {
-    sf::VertexArray vxa(sf::LineStrip, X_MAX * Y_MAX / RENDER_STEP);
+    sf::VertexArray vxa(sf::LineStrip, (X_MAX * Y_MAX / RENDER_STEP) * THICKNESS * 2);
     int i = 0;
     for (float x = -X_MAX; x <= X_MAX; x += RENDER_STEP) {
         float y = compute_function(x);
         point p{ x, y };
 
         vxa[i].position = point_to_pixel(p);
+
+        for (int j = 1; j <= THICKNESS; j++) {
+            point up{ x,y + RENDER_STEP * j };
+            vxa[i + j].position = point_to_pixel(up);
+            vxa[i + j].color = this->color;
+
+            point down{ x,y - RENDER_STEP * j };
+            vxa[i + j].position = point_to_pixel(up);
+            vxa[i + j].color = this->color;
+        }
+
         this->color = get_function_color(ord);
         vxa[i].color = this->color;
 
-        i++;
+        i += THICKNESS;
     }
     return vxa;
 }

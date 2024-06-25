@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
     }
 
     sf::ContextSettings settings;
-    //settings.antialiasingLevel = 8.0;
+    settings.antialiasingLevel = 8.0;
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Graphing Calculator", sf::Style::Close, settings);
     window.setVerticalSyncEnabled(true);
 
