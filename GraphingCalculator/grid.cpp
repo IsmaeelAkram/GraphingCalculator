@@ -14,15 +14,25 @@ sf::VertexArray render_y_axis() {
     return vxa;
 }
 
-void render_grid(sf::RenderWindow* window) {
+void render_grid(sf::RenderWindow* window, sf::Vector2i mouse_pos) {
+    float trace_x = pixel_to_point(mouse_pos).x;
+
     const int x_lines_n = (WINDOW_WIDTH) / (X_MAX * 2);
     sf::VertexArray x_lines[x_lines_n];
     for (int i = -X_MAX; i < x_lines_n; i += 1) {
         sf::VertexArray x_line(sf::LineStrip, 2);
         x_line[0].position = point_to_pixel(point{ (float)i,-WINDOW_HEIGHT });
         x_line[1].position = point_to_pixel(point{ (float)i,WINDOW_HEIGHT });
-        x_line[0].color = sf::Color(255, 255, 255, 50);
-        x_line[1].color = sf::Color(255, 255, 255, 50);
+
+        int line_opacity;
+        if((int)trace_x == i){
+          line_opacity = (255+50)/2;
+        } else {
+          line_opacity = 50;
+        }
+
+        x_line[0].color = sf::Color(255, 255, 255, line_opacity);
+        x_line[1].color = sf::Color(255, 255, 255, line_opacity);
         window->draw(x_line);
     }
 

@@ -5,4 +5,4 @@
 
 sf::VertexArray render_x_axis();
 sf::VertexArray render_y_axis();
-void render_grid(sf::RenderWindow* window);
+void render_grid(sf::RenderWindow* window, sf::Vector2i mouse_pos);

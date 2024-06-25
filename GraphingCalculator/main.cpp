@@ -90,7 +90,7 @@ int main(int argc, char* argv[])
         window.draw(details_text);
         window.draw(x_axis);
         window.draw(y_axis);
-        render_grid(&window);
+        render_grid(&window, mouse_pos);
         for (sf::VertexArray rendered_function : rendered_functions) {
             window.draw(rendered_function);
         }
