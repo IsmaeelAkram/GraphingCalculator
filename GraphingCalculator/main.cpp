@@ -25,6 +25,8 @@ struct point {
     float y;
 };
 
+std::string equation;
+
 sf::Vector2f point_to_pixel(point p) {
     sf::Vector2f pixel;
     pixel.x = (p.x * (QUADRANT_WIDTH / X_MAX)) + WINDOW_WIDTH / 2;
@@ -54,7 +56,7 @@ sf::VertexArray render_y_axis() {
 }
 
 std::string get_equation() {
-    return "x^2";
+    return equation;
 }
 
 te_parser tep;
@@ -105,8 +107,10 @@ void render_grid(sf::RenderWindow* window) {
     }
 }
 
-int main()
+int main(int argc, char* argv[])
 {
+    equation = argv[1];
+
     sf::ContextSettings settings;
     //settings.antialiasingLevel = 8.0;
     sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Graphing Calculator", sf::Style::Close, settings);
