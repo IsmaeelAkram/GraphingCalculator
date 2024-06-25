@@ -109,6 +109,10 @@ void render_grid(sf::RenderWindow* window) {
 
 int main(int argc, char* argv[])
 {
+    int functions_n = argc-1;
+    for(int i = 1; i <= functions_n; i++) {
+      printf("equation found: %s\n", argv[i]);
+    }
     equation = argv[1];
 
     sf::ContextSettings settings;
