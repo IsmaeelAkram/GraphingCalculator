@@ -5,41 +5,12 @@
 #include <vector>
 #include <regex>
 #include "tinyexpr.h"
+#include "constants.h"
+#include "equation.h"
 
 #ifdef __APPLE__
 #define sprintf_s sprintf
 #endif
-
-#define WINDOW_WIDTH 500
-#define WINDOW_HEIGHT 500
-#define QUADRANT_WIDTH WINDOW_WIDTH/2
-#define QUADRANT_HEIGHT WINDOW_HEIGHT/2
-#define X_MAX 10
-#define Y_MAX 10
-#define RENDER_STEP 0.01
-#define TRACE_STEP 0.1
-#define THICKNESS 10
-
-struct point {
-    float x;
-    float y;
-};
-
-std::string equation;
-
-sf::Vector2f point_to_pixel(point p) {
-    sf::Vector2f pixel;
-    pixel.x = (p.x * (QUADRANT_WIDTH / X_MAX)) + WINDOW_WIDTH / 2;
-    pixel.y = (-p.y * (QUADRANT_HEIGHT / Y_MAX)) + WINDOW_HEIGHT / 2;
-    return pixel;
-}
-
-point pixel_to_point(sf::Vector2i px) {
-    point p;
-    p.x = (px.x - WINDOW_WIDTH / 2) / (QUADRANT_WIDTH / X_MAX); // inverse 
-    p.y = -(px.y - WINDOW_HEIGHT / 2) / (QUADRANT_HEIGHT / Y_MAX);
-    return p;
-}
 
 sf::VertexArray render_x_axis() {
     sf::VertexArray vxa(sf::LineStrip, 2);
@@ -52,34 +23,6 @@ sf::VertexArray render_y_axis() {
     sf::VertexArray vxa(sf::LineStrip, 2);
     vxa.append(sf::Vertex(sf::Vector2f(WINDOW_WIDTH / 2, 0)));
     vxa.append(sf::Vertex(sf::Vector2f(WINDOW_WIDTH / 2, WINDOW_HEIGHT)));
-    return vxa;
-}
-
-std::string get_equation() {
-    return equation;
-}
-
-te_parser tep;
-float compute_function(float x) {
-    char x_str[16];
-    sprintf_s(x_str, "%f", x);
-    std::string substituted = std::regex_replace(get_equation(), std::regex("x"), x_str);
-    /* return te_interp(substituted.c_str(), 0); */
-    return tep.evaluate(substituted);
-}
-
-sf::VertexArray render_function() {
-    sf::VertexArray vxa(sf::LineStrip, X_MAX*Y_MAX / RENDER_STEP);
-    int i = 0;
-    for (float x = -X_MAX; x <= X_MAX; x += RENDER_STEP) {
-        float y = compute_function(x);
-        point p{ x, y };
-
-        vxa[i].position = point_to_pixel(p);
-        vxa[i].color = sf::Color::Red;
-
-        i++;
-    }
     return vxa;
 }
 
@@ -109,11 +52,13 @@ void render_grid(sf::RenderWindow* window) {
 
 int main(int argc, char* argv[])
 {
-    int functions_n = argc-1;
+    const int functions_n = argc-1;
+    Equation eqs[functions_n];
     for(int i = 1; i <= functions_n; i++) {
       printf("equation found: %s\n", argv[i]);
+      Equation equation((std::string)argv[i]); 
+      eqs[i-1] = equation;
     }
-    equation = argv[1];
 
     sf::ContextSettings settings;
     //settings.antialiasingLevel = 8.0;
