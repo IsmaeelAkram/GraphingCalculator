@@ -1,3 +1,8 @@
+#pragma once
+#ifdef __APPLE__
+#define sprintf_s sprintf
+#endif
+
 #define WINDOW_WIDTH 500
 #define WINDOW_HEIGHT 500
 #define QUADRANT_WIDTH WINDOW_WIDTH/2

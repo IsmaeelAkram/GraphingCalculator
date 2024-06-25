@@ -135,10 +135,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="equation.cpp" />
+    <ClCompile Include="grid.cpp" />
+    <ClCompile Include="grid.h" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="tinyexpr.c" />
+    <ClCompile Include="point.cpp" />
+    <ClCompile Include="tinyexpr.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="constants.h" />
+    <ClInclude Include="equation.h" />
+    <ClInclude Include="point.h" />
     <ClInclude Include="tinyexpr.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
