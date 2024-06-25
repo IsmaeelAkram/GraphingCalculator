@@ -6,6 +6,10 @@
 #include <regex>
 #include "tinyexpr.h"
 
+#ifdef __APPLE__
+#define sprintf_s sprintf
+#endif
+
 #define WINDOW_WIDTH 1000
 #define WINDOW_HEIGHT 1000
 #define QUADRANT_WIDTH WINDOW_WIDTH/2
