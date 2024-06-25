@@ -135,7 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GraphingCalculator.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="tinyexpr.c" />
   </ItemGroup>
   <ItemGroup>
