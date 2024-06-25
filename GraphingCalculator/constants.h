@@ -10,5 +10,5 @@
 #define QUADRANT_HEIGHT WINDOW_HEIGHT/2
 #define X_MAX 10
 #define Y_MAX 10
-#define RENDER_STEP 0.01
+#define RENDER_STEP 0.01f
 #define THICKNESS 10
