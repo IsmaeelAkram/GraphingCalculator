@@ -8,11 +8,10 @@
 #define WINDOW_HEIGHT 1000
 #define QUADRANT_WIDTH WINDOW_WIDTH/2
 #define QUADRANT_HEIGHT WINDOW_HEIGHT/2
-#define X_MIN -10
-#define X_MAX 10
-#define Y_MIN -10
+#define X_MAX 3
 #define Y_MAX 10
 #define RENDER_STEP 0.01
+#define TRACE_STEP 0.1
 #define THICKNESS 10
 
 struct point {
@@ -57,9 +56,9 @@ float compute_function(float x) {
 }
 
 sf::VertexArray render_function() {
-    sf::VertexArray vxa(sf::LineStrip, (X_MAX - X_MIN) / RENDER_STEP);
+    sf::VertexArray vxa(sf::LineStrip, X_MAX*Y_MAX / RENDER_STEP);
     int i = 0;
-    for (float x = X_MIN; x <= X_MAX; x += RENDER_STEP) {
+    for (float x = -X_MAX; x <= X_MAX; x += RENDER_STEP) {
         float y = compute_function(x);
         point p{ x, y };
 
@@ -71,9 +70,35 @@ sf::VertexArray render_function() {
     return vxa;
 }
 
+void render_grid(sf::RenderWindow* window) {
+    const int x_lines_n = (WINDOW_WIDTH) / (X_MAX * 2);
+    sf::VertexArray x_lines[x_lines_n];
+    for (int i = -X_MAX; i < x_lines_n; i += 1) {
+        sf::VertexArray x_line(sf::LineStrip, 2);
+        x_line[0].position = point_to_pixel(point{ (float)i,-WINDOW_HEIGHT });
+        x_line[1].position = point_to_pixel(point{ (float)i,WINDOW_HEIGHT });
+        x_line[0].color = sf::Color(255, 255, 255, 50);
+        x_line[1].color = sf::Color(255, 255, 255, 50);
+        window->draw(x_line);
+    }
+
+    const int y_lines_n = (WINDOW_HEIGHT) / (Y_MAX * 2);
+    sf::VertexArray y_lines[y_lines_n];
+    for (int i = -Y_MAX; i < y_lines_n; i += 1) {
+        sf::VertexArray y_line(sf::LineStrip, 2);
+        y_line[0].position = point_to_pixel(point{ -WINDOW_WIDTH,(float)i });
+        y_line[1].position = point_to_pixel(point{ WINDOW_WIDTH,(float)i });
+        y_line[0].color = sf::Color(255, 255, 255, 50);
+        y_line[1].color = sf::Color(255, 255, 255, 50);
+        window->draw(y_line);
+    }
+}
+
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Graphing Calculator");
+    sf::ContextSettings settings;
+    //settings.antialiasingLevel = 8.0;
+    sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Graphing Calculator", sf::Style::Close, settings);
     window.setVerticalSyncEnabled(true);
     sf::Event event;
 
@@ -83,26 +108,11 @@ int main()
         return 1;
     }
     
-    sf::Text position_text;
-    position_text.setFont(roboto_mono);
-    position_text.setCharacterSize(24);
-    position_text.setFillColor(sf::Color::White);
-
-    sf::Text trace_text;
-    trace_text.setFont(roboto_mono);
-    trace_text.setStyle(sf::Text::Bold);
-    trace_text.setCharacterSize(24);
-    trace_text.setFillColor(sf::Color::White);
-    trace_text.setPosition(0.0f, 32.0f);
-
-    sf::Text equation_text;
-    equation_text.setFont(roboto_mono);
-    equation_text.setCharacterSize(24);
-    equation_text.setFillColor(sf::Color::White);
-    equation_text.setPosition(0.0f, 64.0f);
-
-    std::string equation = get_equation();
-    equation_text.setString((sf::String)equation);
+    sf::Text details_text;
+    details_text.setFont(roboto_mono);
+    details_text.setCharacterSize(24);
+    details_text.setFillColor(sf::Color::White);
+    details_text.setPosition(0.0f, 0.0f);
 
     sf::VertexArray function = render_function();
     sf::VertexArray x_axis = render_x_axis();
@@ -125,21 +135,25 @@ int main()
         }
 
         sf::Vector2i mouse_pos = sf::Mouse::getPosition(window);
-        char position[24];
-        sprintf_s(position, "screen: [%d, %d]", mouse_pos.x, mouse_pos.y);
-        position_text.setString(position);
-
-        char trace_step[100];
-        sprintf_s(trace_step, "trace: (%.0f, %.0f)", pixel_to_point(mouse_pos).x, compute_function(3));
-        trace_text.setString(trace_step);
+        char buf[1000];
+        sprintf_s(buf, "screen: [%d, %d]\ntrace: (%.2f, %.2f)\n%s\nxMax: %d\nyMax: %d\nrenderStep: %.2f\ntraceStep: %.2f",
+            mouse_pos.x, mouse_pos.y,
+            pixel_to_point(mouse_pos).x, compute_function(pixel_to_point(mouse_pos).x),
+            get_equation().c_str(),
+            X_MAX,
+            Y_MAX,
+            RENDER_STEP,
+            TRACE_STEP
+            );
+        details_text.setString(buf);
 
         window.clear();
-        window.draw(position_text);
-        window.draw(trace_text); 
-        window.draw(equation_text);
+        window.draw(details_text);
         window.draw(x_axis);
         window.draw(y_axis);
+        render_grid(&window);
         window.draw(function);
+
         window.display();
     }
 
