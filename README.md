@@ -1,6 +1,6 @@
 # GraphingCalculator
 
-Written in C++ using SFML graphics and TinyExpr expression parsing.
+Written in C++ using SFML graphics and TinyExpr++ expression parsing.
 
 ## Settings
 The settings are defined in `constants.h`:
@@ -8,8 +8,6 @@ The settings are defined in `constants.h`:
 #define FONT_SIZE 20
 #define WINDOW_WIDTH 1000
 #define WINDOW_HEIGHT 1000
-#define QUADRANT_WIDTH WINDOW_WIDTH/2
-#define QUADRANT_HEIGHT WINDOW_HEIGHT/2
 #define X_MAX 10
 #define Y_MAX 10
 #define RENDER_STEP 0.01
