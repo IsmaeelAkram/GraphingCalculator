@@ -60,6 +60,20 @@ int main(int argc, char* argv[])
                 if (event.key.code == sf::Keyboard::Q) {
                     window.close();
                 }
+                if (event.key.code == sf::Keyboard::C){
+                    printf("Enter new equation: ");
+                    char equation[32];
+                    gets(equation);
+                    Equation eq((std::string)equation);
+                    eqs.push_back(eq);
+
+                    // Re-render
+                    for (int i = 0; i < eqs.size(); i++) {
+                      rendered_functions.push_back(eqs[i].render_function(i));
+                    }
+
+
+                }
                 break;
             }
         }
